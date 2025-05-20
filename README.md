@@ -24,7 +24,7 @@ The **A100 performance characteristics**:
 For the higer end $N > 2048$ SGEMM's AI significantly exceeds the A100's compute-to-bandwidth ratio, SGEMM is **compute-bound** in this range. Performance is limited by ALU throughput rather than memory bandwidth, making computational optimizations (tiling, vectorization, instruction-level parallelism) more impactful than memory access patterns.
 For smaller N, this is more of memory bound, I am thinking to cover this too (but maybe in different worklog)
 
-> All experiments conducted on NVIDIA A100
+> All experiments till "Distributed SGEMM" are conducted on NVIDIA A100, Switching to Hopper for the rest
 
 
 ## Table of Contents
