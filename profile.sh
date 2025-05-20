@@ -1,0 +1,6 @@
+#!/bin/bash
+# sudo /usr/local/cuda-12.4/bin/ncu --section MemoryWorkloadAnalysis ./build/sgemm_runner 4096 4096 4096 1 4 1
+
+# sudo /usr/local/cuda-12.4/bin/ncu --set full ./build/sgemm_runner 4096 4096 4096 1 9 1
+
+sudo /usr/local/cuda-12.4/bin/ncu --metrics l1tex__t_sectors_pipe_lsu_mem_global_op_ld.sum,l1tex__t_requests_pipe_lsu_mem_global_op_ld.sum,l1tex__average_t_sectors_per_request_pipe_lsu_mem_global_op_ld.ratio,l1tex__t_sectors_pipe_lsu_mem_global_op_st.sum,l1tex__t_requests_pipe_lsu_mem_global_op_st.sum,l1tex__average_t_sectors_per_request_pipe_lsu_mem_global_op_st.ratio,smsp__sass_average_data_bytes_per_sector_mem_global_op_ld.pct,smsp__sass_average_data_bytes_per_sector_mem_global_op_st.pct,l1tex__data_pipe_lsu_wavefronts_mem_shared_op_ld.sum,l1tex__data_pipe_lsu_wavefronts_mem_shared_op_st.sum,l1tex__data_bank_conflicts_pipe_lsu_mem_shared_op_ld.sum,l1tex__data_bank_conflicts_pipe_lsu_mem_shared_op_st.sum,smsp__sass_average_data_bytes_per_wavefront_mem_shared.pct ./build/sgemm_runner 4096 4096 4096 1 9 1
