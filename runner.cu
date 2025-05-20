@@ -10,6 +10,7 @@
 #include "kernels/7-warptiling_vectorized_loads.cuh"
 #include "kernels/8-hierarchical_warptiling_float4.cuh"
 #include "kernels/9-cutlass-inspired-pingpong-buffering.cuh"
+#include "kernels/10-multi-gpu-sgemm.cuh"
 #include "utils.hpp"
 #include "cublas_sgemm.cuh"
 
@@ -89,6 +90,11 @@ int main(int argc, char **argv)
       std::cout << "Running ping pong buffering kernel..." << std::endl;
       run_time = run_pingpong(M, N, K, A, B, C, alpha, beta, num_runs);
     break;
+  case 10:
+      kernel_name = "Multi-GPU SGEMM";
+      std::cout << "Running multi-GPU kernel..." << std::endl;
+      run_time = run_pingpong_kernel_multi_gpu(M, N, K, A, B, C, alpha, beta, num_runs);
+      break;
   default:
       kernel_name = "Cublas SGEMM";
       std::cout << "Running cuBLAS SGEMM..." << std::endl;

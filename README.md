@@ -37,7 +37,7 @@ For smaller N, this is more of memory bound, I am thinking to cover this too (bu
 - [Warp tiling + Vectorized Loads](#float4-loads--warptiling)
 - [Hierarchical Warp Tiling + Float4 Loads + Thread Group Swizzling](#hierarchical-warptiling--float4-loads--thread-group-swizzling)
 - [Ping-Pong Buffering Inspired from CUTLASS](#ping-pong-buffering-inspired-from-cutlass)
-- [Distributed SGEMM over multiple GPUs](#) [TBA]
+- [Distributed SGEMM over multiple GPUs](#distributed-sgemm-over-multiple-gpus)
 - [Utilizing Tensor Cores](#) [TBA]
 
 ## Naive
@@ -721,3 +721,28 @@ Template parameters: `BLOCK_SIZE_M=64, BLOCK_SIZE_N=128, BLOCK_SIZE_K=16, WARP_S
 
 The ping-pong buffering mechanism is implemented to overlap memory transfers and computation. However, the kernel's current performance is significantly limited by several memory access inefficiencies: uncoalesced global memory access, high register pressure leading to probable spills and inefficient local memory use, and shared memory bank conflicts. The low occupancy, constrained by register usage, further limits the ability to hide latencies.
 > Interestingly turing off **Swizzling** improves the performance from ~10TFLOPS to ~12TFLOPS (keeping this default for now)
+
+## Distributed SGEMM over multiple GPUs
+- [kernels/10-multi-gpu-sgemm.cuh](kernels/10-multi-gpu-sgemm.cuh)
+- This is simple, we took the last kernel and just modified the logic to execute on multiple-GPUs in parallel
+```
+Running multi-GPU kernel...
+Using 4 GPU(s).
+Average Overall multi-GPU processing time (including H2D, D2H, Host Sum): 66.087 ms
+Average Parallel Kernel Execution Time (max across GPUs per run): 3.338 ms
+GPU 0 average individual kernel execution time: 3.338 ms
+GPU 1 average individual kernel execution time: 2.996 ms
+GPU 2 average individual kernel execution time: 2.951 ms
+GPU 3 average individual kernel execution time: 2.977 ms
+Multi-GPU computation complete.
+Running cuBLAS SGEMM...
+
+=== SGEMM Performance Results for Multi-GPU SGEMM ===
+Matrix dimensions: 4096x4096x4096
+Multi-GPU SGEMM:  3.34 ms, 41.18 TFLOPS
+cuBLAS SGEMM: 7.30 ms, 18.83 TFLOPS
+Performance ratio (cuBLAS/Multi-GPU SGEMM): 0.46x
+Correctness check: PASSED
+```
+
+> There is nothing special to profile this as the kernel is same as our pingpong buffering just running in parallel on multiple-GPUs
