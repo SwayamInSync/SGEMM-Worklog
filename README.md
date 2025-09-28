@@ -577,9 +577,6 @@ Correctness check: PASSED
     smsp__sass_average_data_bytes_per_wavefront_mem_shared.pct                        %           30
     -------------------------------------------------------------------- -------------- ------------
   ```
-
-  Okay, these Nsight Compute profiling metrics provide a wealth of information about your kernel's performance. Let's distill them into a concise summary table, key observations, and a brief conclusion suitable for a README or report.
-
 ---
 
 * **Kernel Name:** `sgemm_hierarchical_warptiling_vectorized_kernel<128, 128, 16, 64, 64, 4, 8, 4, 128>`
